@@ -42,8 +42,31 @@ https.get(RELEASE_URL, (response) => {
   process.exit(1);
 });
 
+function checkCommand(command) {
+  try {
+    const result = require('child_process').spawnSync('which', [command], { stdio: 'ignore' });
+    return result.status === 0;
+  } catch (error) {
+    return false;
+  }
+}
+
 function installExtension() {
   console.log('🔧 Installing GNOME extension...');
+  
+  if (!checkCommand('gnome-extensions')) {
+    console.error('❌ gnome-extensions command not found');
+    console.log('\n📋 Manual installation instructions:');
+    console.log(`1. Open the Extensions app on your GNOME desktop`);
+    console.log(`2. Click the "Install from file..." button`);
+    console.log(`3. Select the downloaded extension: ${ZIP_PATH}`);
+    console.log(`4. Toggle the extension on`);
+    
+    console.log('\n💾 The extension file is available at:');
+    console.log(ZIP_PATH);
+    console.log('\nThis file will remain after the script exits.');
+    return;
+  }
   
   const install = spawn('gnome-extensions', ['install', '--force', ZIP_PATH]);
   

@@ -1,104 +1,124 @@
 # Zellij Theme Switcher
 
-A GNOME extension that automatically switches Zellij themes based on the system's light/dark mode setting.
+[![Build and Release](https://github.com/angelsen/zellij-theme-switcher/actions/workflows/build.yml/badge.svg)](https://github.com/angelsen/zellij-theme-switcher/actions/workflows/build.yml)
+[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![GNOME Shell 44+](https://img.shields.io/badge/GNOME-44%2B-blueviolet)](https://github.com/angelsen/zellij-theme-switcher)
 
-## Features
+A GNOME extension that automatically switches [Zellij](https://zellij.dev) themes based on the system's light/dark mode setting.
 
-- Automatically updates Zellij theme when GNOME switches between light and dark modes
-- Configurable themes for both light and dark mode
-- Seamless theme switching (Zellij automatically watches its config file)
-- Simple preferences dialog to configure themes
+<div align="center">
+  <img src="https://raw.githubusercontent.com/angelsen/zellij-theme-switcher/main/assets/theme-switcher-demo.gif" alt="Theme Switcher Demo" width="700">
+</div>
 
-## Installation
+## ✨ Features
 
-### Using npx (Recommended)
+- 🌓 **Automatic theme switching** - Follows GNOME's light/dark mode automatically
+- 🎨 **Configurable themes** - Choose your preferred themes for both light and dark modes
+- 🔄 **Real-time updates** - Zellij sees changes immediately (no restart needed)
+- 🛠️ **Easy configuration** - Simple preference dialog to set everything up
+
+## 📦 Installation
+
+### 🚀 One-line install (Recommended)
 
 The easiest way to install is with npx directly from GitHub:
 
 ```bash
-# Install the extension
 npx github:angelsen/zellij-theme-switcher
+```
+
+Then enable the extension:
+
+```bash
+gnome-extensions enable zellij-theme-switcher@angelsen.github.io
+```
+
+### 📥 Manual installation
+
+You can also download the latest release directly from GitHub:
+
+<a href="https://github.com/angelsen/zellij-theme-switcher/releases/latest/download/zellij-theme-switcher@angelsen.github.io.shell-extension.zip">
+   <img src="https://img.shields.io/badge/Download-Latest%20Release-2ea44f" alt="Download Latest Release">
+</a>
+
+After downloading, install using:
+```bash
+gnome-extensions install --force zellij-theme-switcher@angelsen.github.io.shell-extension.zip
+gnome-extensions enable zellij-theme-switcher@angelsen.github.io
+```
+
+### 👨‍💻 From source
+
+For development or to get the latest changes:
+
+```bash
+# Clone the repository
+git clone https://github.com/angelsen/zellij-theme-switcher
+cd zellij-theme-switcher
+
+# Build and install
+npm install
+npm run rebuild-install
 
 # Enable the extension
 gnome-extensions enable zellij-theme-switcher@angelsen.github.io
 ```
 
+### 🔄 After installation
+
 After enabling, you may need to restart GNOME Shell:
-- On X11: Alt+F2, then type 'r' and press Enter
+- On X11: <kbd>Alt</kbd>+<kbd>F2</kbd>, type `r`, press <kbd>Enter</kbd>
 - On Wayland: Log out and log back in
 
-### From source
-
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/angelsen/zellij-theme-switcher
-   cd zellij-theme-switcher
-   ```
-
-2. Install the extension:
-   ```bash
-   # Build and install:
-   npm install
-   npm run rebuild-install
-   
-   # Enable the extension:
-   gnome-extensions enable zellij-theme-switcher@angelsen.github.io
-   ```
-
-3. Restart GNOME Shell:
-   - On X11: Alt+F2, then type 'r' and press Enter
-   - On Wayland: Log out and log back in
-
-## Configuration
+## ⚙️ Configuration
 
 After installation, you can configure the extension through GNOME Extensions Settings:
 
-1. Open the Extensions app or visit `gnome-extensions prefs zellij-theme-switcher@angelsen.github.io`
+1. Open the Extensions app or visit:
+   ```bash
+   gnome-extensions prefs zellij-theme-switcher@angelsen.github.io
+   ```
 2. Select your preferred Zellij themes for light and dark modes
 
-## How It Works
+<div align="center">
+  <img src="https://raw.githubusercontent.com/angelsen/zellij-theme-switcher/main/assets/preferences.png" alt="Preferences Dialog" width="600">
+</div>
 
-The extension monitors GNOME's `color-scheme` setting and updates the Zellij config file (`~/.config/zellij/config.kdl`) with the appropriate theme based on the current mode. When the system switches between light and dark mode, Zellij's theme will automatically follow.
+## 🧩 How It Works
 
-## Requirements
+The extension:
+- Monitors GNOME's `color-scheme` setting
+- Updates Zellij's config file (`~/.config/zellij/config.kdl`) with your chosen theme
+- Works immediately as Zellij automatically reloads its config
+
+## 📋 Requirements
 
 - GNOME Shell 44 or later
-- Zellij installed and configured
-- A system that uses GNOME's light/dark mode setting
+- [Zellij](https://zellij.dev) installed and configured
+- A system with GNOME's light/dark mode support
 
-## Development
+## 🛠️ Development
 
-The extension is written in TypeScript and uses type definitions from the `@girs/gnome-shell` package.
+This extension is built with TypeScript and uses GNOME Shell type definitions.
 
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
+```bash
+# Install dependencies
+npm install
 
-2. Build the extension:
-   ```bash
-   npm run build-extension
-   ```
+# Build the extension
+npm run build
 
-3. Install and test:
-   ```bash
-   npm run install-extension
-   ```
+# Test your changes
+npm run rebuild-install
+```
 
-4. Or use the all-in-one rebuild and install command:
-   ```bash
-   npm run rebuild-install
-   ```
+### 🧰 Technical Details
 
-### Build Process
+- Written in TypeScript with `@girs/gnome-shell` type definitions
+- Built with esbuild for optimal bundling
+- Follows GNOME extension structure and best practices
+- Uses GSettings for configuration persistence
 
-The extension uses esbuild to transform TypeScript files to JavaScript while handling ambient imports properly. The build script:
+## 📄 License
 
-1. Processes TypeScript files (`extension-js.ts` and `prefs-js.ts`)
-2. Removes all `@girs` ambient module imports which are only needed for development
-3. Bundles the code and generates the final `extension.js` and `prefs.js` files
-4. Preserves ESM imports for GNOME Shell compatibility
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+[MIT License](LICENSE) © Fredrik Angelsen

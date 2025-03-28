@@ -4,7 +4,7 @@
   "description": "A GNOME extension that automatically switches Zellij themes based on the system's light/dark mode setting.",
   "main": "extension.js",
   "bin": {
-    "install-zellij-theme-switcher": "./bin/install.js"
+    "zellij-theme-switcher": "./bin/install.js"
   },
   "scripts": {
     "build": "node build.js",
