@@ -1,0 +1,67 @@
+name: Build and Release
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build extension
+        run: npm run build-extension
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: zellij-theme-switcher
+          path: zellij-theme-switcher@angelsen.github.io.shell-extension.zip
+  
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+      
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: zellij-theme-switcher
+      
+      - name: Create dist directory
+        run: mkdir -p dist
+      
+      - name: Copy extension to dist
+        run: cp zellij-theme-switcher@angelsen.github.io.shell-extension.zip dist/
+      
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            zellij-theme-switcher@angelsen.github.io.shell-extension.zip
+          draft: false
+          prerelease: false
+      
+      # No need to publish to NPM, we'll use GitHub releases directly

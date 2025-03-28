@@ -11,6 +11,22 @@ A GNOME extension that automatically switches Zellij themes based on the system'
 
 ## Installation
 
+### Using npx (Recommended)
+
+The easiest way to install is with npx directly from GitHub:
+
+```bash
+# Install the extension
+npx github:angelsen/zellij-theme-switcher
+
+# Enable the extension
+gnome-extensions enable zellij-theme-switcher@angelsen.github.io
+```
+
+After enabling, you may need to restart GNOME Shell:
+- On X11: Alt+F2, then type 'r' and press Enter
+- On Wayland: Log out and log back in
+
 ### From source
 
 1. Clone this repository:
@@ -21,12 +37,12 @@ A GNOME extension that automatically switches Zellij themes based on the system'
 
 2. Install the extension:
    ```bash
-   # For development/testing:
-   gnome-extensions install --force .
-   gnome-extensions enable zellij-theme-switcher@angelsen.github.io
+   # Build and install:
+   npm install
+   npm run rebuild-install
    
-   # For system-wide installation:
-   make install
+   # Enable the extension:
+   gnome-extensions enable zellij-theme-switcher@angelsen.github.io
    ```
 
 3. Restart GNOME Shell:
