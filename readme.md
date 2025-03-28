@@ -15,7 +15,7 @@ A GNOME extension that automatically switches Zellij themes based on the system'
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/yourusername/zellij-theme-switcher
+   git clone https://github.com/angelsen/zellij-theme-switcher
    cd zellij-theme-switcher
    ```
 
@@ -23,7 +23,7 @@ A GNOME extension that automatically switches Zellij themes based on the system'
    ```bash
    # For development/testing:
    gnome-extensions install --force .
-   gnome-extensions enable zellij-theme-switcher@yourusername.github.io
+   gnome-extensions enable zellij-theme-switcher@angelsen.github.io
    
    # For system-wide installation:
    make install
@@ -37,7 +37,7 @@ A GNOME extension that automatically switches Zellij themes based on the system'
 
 After installation, you can configure the extension through GNOME Extensions Settings:
 
-1. Open the Extensions app or visit `gnome-extensions prefs zellij-theme-switcher@yourusername.github.io`
+1. Open the Extensions app or visit `gnome-extensions prefs zellij-theme-switcher@angelsen.github.io`
 2. Select your preferred Zellij themes for light and dark modes
 3. Choose whether to update running Zellij sessions when the theme changes
 
@@ -51,6 +51,25 @@ The extension monitors GNOME's `color-scheme` setting and updates the Zellij con
 - Zellij installed and configured
 - A system that uses GNOME's light/dark mode setting
 
+## Development
+
+The extension is written in TypeScript and uses type definitions from the `@girs/gnome-shell` package.
+
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+2. Build the extension:
+   ```bash
+   npm run build-extension
+   ```
+
+3. Install and test:
+   ```bash
+   npm run install-extension
+   ```
+
 ## License
 
-MIT
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
