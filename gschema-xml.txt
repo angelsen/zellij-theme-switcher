@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.zellij-theme-switcher" path="/org/gnome/shell/extensions/zellij-theme-switcher/">
+    <key name="light-theme" type="s">
+      <default>'catppuccin-latte'</default>
+      <summary>Zellij theme for light mode</summary>
+      <description>The Zellij theme to use when GNOME is in light mode</description>
+    </key>
+    <key name="dark-theme" type="s">
+      <default>'dracula'</default>
+      <summary>Zellij theme for dark mode</summary>
+      <description>The Zellij theme to use when GNOME is in dark mode</description>
+    </key>
+    <key name="update-running-sessions" type="b">
+      <default>true</default>
+      <summary>Update running Zellij sessions</summary>
+      <description>Whether to update theme for all running Zellij sessions</description>
+    </key>
+  </schema>
+</schemalist>

@@ -1,0 +1,10 @@
+{
+  "name": "Zellij Theme Switcher",
+  "description": "Automatically switches Zellij themes based on GNOME light/dark mode",
+  "uuid": "zellij-theme-switcher@angelsen.github.io",
+  "shell-version": ["44", "45", "46", "47", "48"],
+  "settings-schema": "org.gnome.shell.extensions.zellij-theme-switcher",
+  "gettext-domain": "zellij-theme-switcher",
+  "url": "https://github.com/angelsen/zellij-theme-switcher",
+  "version": 1
+}

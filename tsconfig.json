@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "es2020",
+    "lib": ["es2020"],
+    "moduleResolution": "node",
+    "strict": false,
+    "noImplicitAny": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "."
+  },
+  "include": [
+    "*.ts"
+  ],
+  "references": [
+    { "path": "./node_modules/@girs/gnome-shell" }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "zellij-theme-switcher",
+  "version": "1.0.0",
+  "description": "A GNOME extension that automatically switches Zellij themes based on the system's light/dark mode setting.",
+  "main": "extension.js",
+  "scripts": {
+    "build": "tsc --skipLibCheck --ignoreErrors --allowJs --outDir .",
+    "watch": "tsc --skipLibCheck --ignoreErrors --allowJs --outDir . --watch",
+    "compile": "cp extension-js.ts extension.js && cp prefs-js.ts prefs.js",
+    "build-extension": "npm run compile && gnome-extensions pack . --force",
+    "install-extension": "gnome-extensions install --force zellij-theme-switcher@angelsen.github.io.shell-extension.zip"
+  },
+  "keywords": ["gnome", "extension", "zellij", "theme", "switcher"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@girs/gnome-shell": "^48.0.2",
+    "typescript": "^5.8.2"
+  }
+}

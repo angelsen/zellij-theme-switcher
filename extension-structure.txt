@@ -1,0 +1,8 @@
+zellij-theme-switcher/
+├── extension.js           # Main extension code
+├── metadata.json          # Extension metadata
+├── prefs.js               # Preferences dialog
+├── schemas/               # GSettings schemas
+│   ├── gschemas.compiled
+│   └── org.gnome.shell.extensions.zellij-theme-switcher.gschema.xml
+└── stylesheet.css         # Optional styling
