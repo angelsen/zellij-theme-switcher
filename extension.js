@@ -66,11 +66,13 @@ var ZellijThemeSwitcherExtension = class extends Extension {
           configContent = new TextDecoder().decode(contents);
         }
       }
-      const regex = /theme\s+"[^"]*"/g;
-      configContent = configContent.replace(regex, "");
-      if (!configContent.includes("theme")) {
-        configContent += `
-theme "${themeName}"
+      const themeRegex = /^\s*theme\s*"[^"]*"\s*(?:\/\/.*)?$/m;
+      if (themeRegex.test(configContent)) {
+        configContent = configContent.replace(themeRegex, `theme "${themeName}" // Set by GNOME extension`);
+      } else {
+        configContent = configContent.trim();
+        configContent += configContent.length > 0 ? "\n\n" : "";
+        configContent += `theme "${themeName}" // Set by GNOME extension
 `;
       }
       const bytes = new TextEncoder().encode(configContent);
@@ -81,9 +83,6 @@ theme "${themeName}"
         Gio.FileCreateFlags.REPLACE_DESTINATION,
         null
       );
-      if (this._settings.get_boolean("update-running-sessions")) {
-        this._updateRunningSessions();
-      }
     } catch (e) {
       if (this._logger) {
         this._logger.error(`Error updating Zellij theme: ${e}`);

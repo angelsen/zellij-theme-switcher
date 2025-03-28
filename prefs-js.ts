@@ -84,24 +84,6 @@ export default class ZellijThemeSwitcherPreferences extends ExtensionPreferences
         themeGroup.add(lightRow);
         themeGroup.add(darkRow);
         
-        // Options group
-        const optionsGroup = new Adw.PreferencesGroup({
-            title: 'Behavior'
-        });
-        page.add(optionsGroup);
-        
-        // Update running sessions switch
-        const updateRow = new Adw.SwitchRow({
-            title: 'Update Running Sessions',
-            subtitle: 'Apply theme changes to already running Zellij sessions'
-        });
-        
-        updateRow.set_active(window._settings.get_boolean('update-running-sessions'));
-        
-        updateRow.connect('notify::active', (row) => {
-            window._settings.set_boolean('update-running-sessions', row.get_active());
-        });
-        
-        optionsGroup.add(updateRow);
+        // We could add more options here in the future
     }
 }

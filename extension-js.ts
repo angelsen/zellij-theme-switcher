@@ -96,13 +96,19 @@ export default class ZellijThemeSwitcherExtension extends Extension {
                 }
             }
             
-            // Remove any existing theme line
-            const regex = /theme\s+"[^"]*"/g;
-            configContent = configContent.replace(regex, '');
+            // Use a more precise regex to match theme line in KDL format
+            // This searches for a standalone theme line anywhere in the file
+            const themeRegex = /^\s*theme\s*"[^"]*"\s*(?:\/\/.*)?$/m;
             
-            // Add the new theme
-            if (!configContent.includes('theme')) {
-                configContent += `\ntheme "${themeName}"\n`;
+            // Check if theme line exists and replace it
+            if (themeRegex.test(configContent)) {
+                // Replace theme line
+                configContent = configContent.replace(themeRegex, `theme "${themeName}" // Set by GNOME extension`);
+            } else {
+                // Add new theme line at the end of the file
+                configContent = configContent.trim();
+                configContent += configContent.length > 0 ? '\n\n' : '';
+                configContent += `theme "${themeName}" // Set by GNOME extension\n`;
             }
             
             // Write back to file
@@ -110,10 +116,8 @@ export default class ZellijThemeSwitcherExtension extends Extension {
             file.replace_contents(bytes, null, false, 
                 Gio.FileCreateFlags.REPLACE_DESTINATION, null);
             
-            // Optionally update running sessions
-            if (this._settings.get_boolean('update-running-sessions')) {
-                this._updateRunningSessions();
-            }
+            // We don't need to manually update running sessions as Zellij watches the config file
+            // and applies changes automatically
             
         } catch (e) {
             if (this._logger) {
