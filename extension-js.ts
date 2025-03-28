@@ -1,9 +1,5 @@
 'use strict';
 
-// Import GNOME Shell type definitions
-import '@girs/gnome-shell/ambient';
-import '@girs/gnome-shell/extensions/global';
-
 import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';

@@ -10,7 +10,10 @@
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "."
+    "outDir": ".",
+    "typeRoots": ["./node_modules/@girs"],
+    "removeComments": true,
+    "isolatedModules": true
   },
   "include": [
     "*.ts"

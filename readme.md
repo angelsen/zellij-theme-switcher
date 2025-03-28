@@ -70,6 +70,15 @@ The extension is written in TypeScript and uses type definitions from the `@girs
    npm run install-extension
    ```
 
+### Build Process
+
+The extension uses esbuild to transform TypeScript files to JavaScript while handling ambient imports properly. The build script:
+
+1. Processes TypeScript files (`extension-js.ts` and `prefs-js.ts`)
+2. Removes all `@girs` ambient module imports which are only needed for development
+3. Bundles the code and generates the final `extension.js` and `prefs.js` files
+4. Preserves ESM imports for GNOME Shell compatibility
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
