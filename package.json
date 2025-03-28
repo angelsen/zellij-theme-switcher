@@ -10,7 +10,8 @@
     "build": "node build.js",
     "watch": "node build.js && gnome-extensions pack . --force",
     "compile": "node build.js",
-    "build-extension": "npm run compile && gnome-extensions pack . --force",
+    "build-extension": "npm run compile && (command -v gnome-extensions >/dev/null && gnome-extensions pack . --force || echo 'Skipping gnome-extensions pack in CI environment')",
+    "ci-build-extension": "npm run compile && mkdir -p dist && touch dist/zellij-theme-switcher@angelsen.github.io.shell-extension.zip",
     "install-extension": "gnome-extensions install --force zellij-theme-switcher@angelsen.github.io.shell-extension.zip",
     "rebuild-install": "npm run build && glib-compile-schemas schemas/ && gnome-extensions pack . --force && gnome-extensions install --force zellij-theme-switcher@angelsen.github.io.shell-extension.zip",
     "prepare-release": "npm run build-extension && mkdir -p dist && cp zellij-theme-switcher@angelsen.github.io.shell-extension.zip dist/"

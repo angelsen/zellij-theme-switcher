@@ -22,14 +22,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
-      - name: Build extension
-        run: npm run build-extension
+      - name: Install GNOME Shell extension tools
+        run: sudo apt-get update && sudo apt-get install -y gnome-shell-extensions
+      
+      - name: Build extension for CI
+        run: npm run ci-build-extension
       
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: zellij-theme-switcher
-          path: zellij-theme-switcher@angelsen.github.io.shell-extension.zip
+          path: dist/zellij-theme-switcher@angelsen.github.io.shell-extension.zip
   
   release:
     needs: build
@@ -49,18 +52,15 @@ jobs:
         with:
           name: zellij-theme-switcher
       
-      - name: Create dist directory
+      - name: Ensure dist directory exists
         run: mkdir -p dist
-      
-      - name: Copy extension to dist
-        run: cp zellij-theme-switcher@angelsen.github.io.shell-extension.zip dist/
       
       - name: Create GitHub Release
         id: create_release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            zellij-theme-switcher@angelsen.github.io.shell-extension.zip
+            dist/zellij-theme-switcher@angelsen.github.io.shell-extension.zip
           draft: false
           prerelease: true
           generate_release_notes: true
