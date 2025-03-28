@@ -8,7 +8,8 @@
     "watch": "node build.js && gnome-extensions pack . --force",
     "compile": "node build.js",
     "build-extension": "npm run compile && gnome-extensions pack . --force",
-    "install-extension": "gnome-extensions install --force zellij-theme-switcher@angelsen.github.io.shell-extension.zip"
+    "install-extension": "gnome-extensions install --force zellij-theme-switcher@angelsen.github.io.shell-extension.zip",
+    "rebuild-install": "npm run build && glib-compile-schemas schemas/ && gnome-extensions pack . --force && gnome-extensions install --force zellij-theme-switcher@angelsen.github.io.shell-extension.zip"
   },
   "keywords": [
     "gnome",

@@ -11,10 +11,5 @@
       <summary>Zellij theme for dark mode</summary>
       <description>The Zellij theme to use when GNOME is in dark mode</description>
     </key>
-    <key name="update-running-sessions" type="b">
-      <default>true</default>
-      <summary>Update running Zellij sessions</summary>
-      <description>Whether to update theme for all running Zellij sessions</description>
-    </key>
   </schema>
 </schemalist>

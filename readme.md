@@ -6,7 +6,7 @@ A GNOME extension that automatically switches Zellij themes based on the system'
 
 - Automatically updates Zellij theme when GNOME switches between light and dark modes
 - Configurable themes for both light and dark mode
-- Option to update running Zellij sessions immediately
+- Seamless theme switching (Zellij automatically watches its config file)
 - Simple preferences dialog to configure themes
 
 ## Installation
@@ -39,7 +39,6 @@ After installation, you can configure the extension through GNOME Extensions Set
 
 1. Open the Extensions app or visit `gnome-extensions prefs zellij-theme-switcher@angelsen.github.io`
 2. Select your preferred Zellij themes for light and dark modes
-3. Choose whether to update running Zellij sessions when the theme changes
 
 ## How It Works
 
@@ -68,6 +67,11 @@ The extension is written in TypeScript and uses type definitions from the `@girs
 3. Install and test:
    ```bash
    npm run install-extension
+   ```
+
+4. Or use the all-in-one rebuild and install command:
+   ```bash
+   npm run rebuild-install
    ```
 
 ### Build Process

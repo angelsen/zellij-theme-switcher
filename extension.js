@@ -7,6 +7,7 @@ var ZellijThemeSwitcherExtension = class extends Extension {
     super(metadata);
     this._interfaceSettings = null;
     this._settingsChangedId = 0;
+    this._extensionSettingsChangedId = 0;
     this._settings = null;
     this._logger = null;
   }
@@ -25,12 +26,20 @@ var ZellijThemeSwitcherExtension = class extends Extension {
       "changed::color-scheme",
       this._onThemeChanged.bind(this)
     );
+    this._extensionSettingsChangedId = this._settings.connect(
+      "changed",
+      this._onExtensionSettingChanged.bind(this)
+    );
     this._onThemeChanged();
   }
   disable() {
     if (this._interfaceSettings && this._settingsChangedId) {
       this._interfaceSettings.disconnect(this._settingsChangedId);
       this._settingsChangedId = 0;
+    }
+    if (this._settings && this._extensionSettingsChangedId) {
+      this._settings.disconnect(this._extensionSettingsChangedId);
+      this._extensionSettingsChangedId = 0;
     }
     if (this._logger) {
       this._logger.info("Disabling extension");
@@ -46,6 +55,20 @@ var ZellijThemeSwitcherExtension = class extends Extension {
     const isDarkMode = colorScheme.includes("dark");
     const themeName = isDarkMode ? this._settings.get_string("dark-theme") : this._settings.get_string("light-theme");
     this._updateZellijTheme(themeName);
+  }
+  _onExtensionSettingChanged(settings, key) {
+    if (key !== "light-theme" && key !== "dark-theme") {
+      return;
+    }
+    const colorScheme = this._interfaceSettings.get_string("color-scheme");
+    const isDarkMode = colorScheme.includes("dark");
+    if (isDarkMode && key === "dark-theme" || !isDarkMode && key === "light-theme") {
+      const themeName = this._settings.get_string(key);
+      if (this._logger) {
+        this._logger.debug(`Theme setting changed to: ${themeName}`);
+      }
+      this._updateZellijTheme(themeName);
+    }
   }
   _updateZellijTheme(themeName) {
     try {
@@ -88,18 +111,6 @@ var ZellijThemeSwitcherExtension = class extends Extension {
         this._logger.error(`Error updating Zellij theme: ${e}`);
       } else {
         logError(e);
-      }
-    }
-  }
-  _updateRunningSessions() {
-    try {
-      if (this._logger) {
-        this._logger.debug("Updating running Zellij sessions");
-      }
-      GLib.spawn_command_line_async("zellij action options --config-dir ~/.config/zellij");
-    } catch (e) {
-      if (this._logger) {
-        this._logger.debug("Failed to update running Zellij sessions (might not be running)");
       }
     }
   }

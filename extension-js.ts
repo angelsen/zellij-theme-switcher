@@ -10,6 +10,7 @@ export default class ZellijThemeSwitcherExtension extends Extension {
         super(metadata);
         this._interfaceSettings = null;
         this._settingsChangedId = 0;
+        this._extensionSettingsChangedId = 0;
         this._settings = null;
         this._logger = null;
     }
@@ -36,6 +37,12 @@ export default class ZellijThemeSwitcherExtension extends Extension {
             this._onThemeChanged.bind(this)
         );
         
+        // Connect to our extension settings to detect theme preference changes
+        this._extensionSettingsChangedId = this._settings.connect(
+            'changed',
+            this._onExtensionSettingChanged.bind(this)
+        );
+        
         // Initial run to set theme according to current mode
         this._onThemeChanged();
     }
@@ -44,6 +51,11 @@ export default class ZellijThemeSwitcherExtension extends Extension {
         if (this._interfaceSettings && this._settingsChangedId) {
             this._interfaceSettings.disconnect(this._settingsChangedId);
             this._settingsChangedId = 0;
+        }
+        
+        if (this._settings && this._extensionSettingsChangedId) {
+            this._settings.disconnect(this._extensionSettingsChangedId);
+            this._extensionSettingsChangedId = 0;
         }
         
         if (this._logger) {
@@ -67,6 +79,26 @@ export default class ZellijThemeSwitcherExtension extends Extension {
             this._settings.get_string('light-theme');
         
         this._updateZellijTheme(themeName);
+    }
+    
+    _onExtensionSettingChanged(settings, key) {
+        // Only respond to theme setting changes
+        if (key !== 'light-theme' && key !== 'dark-theme') {
+            return;
+        }
+        
+        // Check if the changed setting matches the current mode
+        const colorScheme = this._interfaceSettings.get_string('color-scheme');
+        const isDarkMode = colorScheme.includes('dark');
+        
+        // Only update if the changed theme matches the current mode
+        if ((isDarkMode && key === 'dark-theme') || (!isDarkMode && key === 'light-theme')) {
+            const themeName = this._settings.get_string(key);
+            if (this._logger) {
+                this._logger.debug(`Theme setting changed to: ${themeName}`);
+            }
+            this._updateZellijTheme(themeName);
+        }
     }
 
     _updateZellijTheme(themeName) {
@@ -128,18 +160,4 @@ export default class ZellijThemeSwitcherExtension extends Extension {
         }
     }
     
-    _updateRunningSessions() {
-        // Send signal to update running Zellij sessions if needed
-        try {
-            if (this._logger) {
-                this._logger.debug('Updating running Zellij sessions');
-            }
-            GLib.spawn_command_line_async('zellij action options --config-dir ~/.config/zellij');
-        } catch (e) {
-            // Ignore errors here, as Zellij might not be running
-            if (this._logger) {
-                this._logger.debug('Failed to update running Zellij sessions (might not be running)');
-            }
-        }
-    }
 }
